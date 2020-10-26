@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CMS{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        <div>{{ post.title }}</div>
+        <p>Posted at {{ post.date|date("H:m") }} on {{ post.date|date("d-m-Y") }}</p>
+        <div>{{ post.text }}</div>
+    {% endfor %}
+{% endblock %}
