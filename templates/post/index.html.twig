@@ -3,6 +3,9 @@
 {% block title %}CMS{% endblock %}
 
 {% block body %}
+    {% for flash in app.flashes('success') %}
+        <div>{{ flash }}</div>
+    {% endfor %}
     {% for post in posts %}
         <div>{{ post.title }}</div>
         <p>Posted at {{ post.date|date("H:m") }} on {{ post.date|date("d-m-Y") }}</p>
