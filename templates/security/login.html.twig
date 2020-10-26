@@ -3,9 +3,9 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
+<form method="post" class="my-3">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger my-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
@@ -14,7 +14,6 @@
                 <br>Your role{{ app.user.roles|length <= 1 ? " is" : "s are" }} {% for role in app.user.roles %}{{ role }}{{ not loop.last ? ", " }}{% endfor %}
         </div>
     {% else %}
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputUsername">Username</label>
         <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
         <label for="inputPassword">Password</label>
@@ -35,9 +34,10 @@
             </div>
         #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
+        <button class="btn btn-lg btn-primary my-2" type="submit">
             Sign in
         </button>
+        <div>No account ? <a href="{{ path('app_register') }}">Register here</a></div>
     {% endif %}
 </form>
 {% endblock %}
