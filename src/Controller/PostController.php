@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Form\AdminPostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,6 +46,8 @@ class PostController extends AbstractController
         $em->remove($post);
         $em->flush();
 
+        $this->addFlash("success", "Post deleted");
+
         return $this->redirectToRoute('admin');
     }
 
@@ -62,11 +66,24 @@ class PostController extends AbstractController
     /**
      * @Route("/admin/post/{id}", name="admin_post")
      */
-    public function admin_post(PostRepository $postRepository, int $id): Response
+    public function admin_post(PostRepository $postRepository, int $id, Request $request): Response
     {
         $post = $postRepository->find($id);
+
+        $form = $this->createForm(AdminPostType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash("success", "Post updated");
+        }
         return $this->render('post/admin_post.html.twig', [
             "controller_name" => "admin_post",
+            'form' => $form->createView(),
             "post" => $post
         ]);
     }
