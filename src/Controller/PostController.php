@@ -34,6 +34,20 @@ class PostController extends AbstractController
     }
 
     /**
+     * @Route("/delete/{id}", name="delete_post")
+     */
+    public function delete_post(PostRepository $postRepository, int $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = $postRepository->find($id);
+
+        $em->remove($post);
+        $em->flush();
+
+        return $this->redirectToRoute('admin');
+    }
+
+    /**
      * @Route("/admin", name="admin")
      */
     public function admin(PostRepository $postRepository): Response
@@ -42,6 +56,18 @@ class PostController extends AbstractController
         return $this->render('post/admin.html.twig', [
             "controller_name" => "admin",
             "posts" => $posts
+        ]);
+    }
+
+    /**
+     * @Route("/admin/post/{id}", name="admin_post")
+     */
+    public function admin_post(PostRepository $postRepository, int $id): Response
+    {
+        $post = $postRepository->find($id);
+        return $this->render('post/admin_post.html.twig', [
+            "controller_name" => "admin_post",
+            "post" => $post
         ]);
     }
 }

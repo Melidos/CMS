@@ -103,7 +103,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             return new RedirectResponse($targetPath);
         }
 
-        $this->session->getFlashBag()->add("success", sprintf("Welcome %s, you are now logged in", $this->getCredentials($request)["username"]));
+        //$this->session->getFlashBag()->add("success", sprintf("Welcome %s, you are now logged in", $this->getCredentials($request)["username"]));
 
         return new RedirectResponse($this->urlGenerator->generate('home'));
     }
